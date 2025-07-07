@@ -229,4 +229,4 @@ done
 
 ## Código completo
 
-[Aquí temos o código completo] (https://github.com/silviaadiz/scriptsGMX/blob/main/imputation/imputation_full_pipeline.sh), pero podemos atopar un [modelo automatizado] (https://github.com/silviaadiz/scriptsGMX/tree/main/imputation/automated_scripts), cos arquivos “Script_pre_imputación.sh”, “Script_post_imputación.sh” e “config.sh”, que son máis cómodos de usar porque só se toca o script config.sh (salvo modificacións da pipeline).
+[Aquí temos o código completo](https://github.com/silviaadiz/scriptsGMX/blob/main/imputation/imputation_full_pipeline.sh), pero podemos atopar un [modelo automatizado](https://github.com/silviaadiz/scriptsGMX/tree/main/imputation/automated_scripts), cos arquivos “Script_pre_imputación.sh”, “Script_post_imputación.sh” e “config.sh”, que son máis cómodos de usar porque só se toca o script config.sh (salvo modificacións da pipeline).

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #-------------------------------
 # Paso 0.  Cargar configuración 
 #------------------------------- 
@@ -24,7 +23,7 @@ unzip -P ${PASSWORD} \*
 #------------------------------------------------------------
 
 
-for i in {22..22}; do
+for i in {1..23}; do
     $STORE2/plink/plink2 \
         --vcf "${DIR_IMPUTACION}/chr${i}.dose.vcf.gz" \
         --set-all-var-ids '@:#:$r:$a' \
@@ -41,7 +40,7 @@ done
 # NOTA: COMPROBAR QUE O CHR IMPUTADO CORRESPONDE AOS INDIVIDUOS XENOTIPADOS, é dicir, que sexan OS MESMOS INDIVIDUOS E NA MESMA ORDE
 #----------------------------------------------------------------------------------------------------------------------------------
 
-for i in {22..22}; do
+for i in {1..23}; do
     $STORE2/plink/plink \
         --bfile "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_post_qc_paso01" \
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
@@ -49,4 +48,5 @@ for i in {22..22}; do
         --make-bed \
         --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
 done
+
 

@@ -19,12 +19,15 @@ FASTA_hg19="/mnt/netapp1/Store_chumxrcg/REFERENCE_GENOMES/hg19.fa"
 FASTA_hg38="/mnt/netapp1/Store_chumxrcg/REFERENCE_GENOMES/hg38.fa"
 ```
 
-1. **Paso 1**: Con PLINK, dividimos os datos por cromosomas (1-23) e convertémolos a formato VCF. É importante que os cromosomas se codifiquen co prefixo `chr` (ex. `chr1`, `chrX`) para que sexan compatibles coa nomenclatura do ficheiro FASTA e co servidor de imputación.
+1. **Paso 1**: Con PLINK, dividimos os datos por cromosomas (1-23) e convertémolos a formato VCF.
+Cando traballamos coa versión hg38, o número de cromosoma debe ir codificado como `chr` (ex. `chr1`, `chrX`) para o servidor de imputación, mentres que co hg19 non. Para alinear co ficheiro FASTA, por outro lado, a codificación dos cromosomas teñen que levar o prefixo para que sexan compatibles coa nomenclatura do ficheiro. Entón o que facemos na pipeline é incorporar o "chr" directamente e 1. eliminalo nun paso posterior se a versión do xenoma é hg19, ou 2. mantelo se é hg38.
+
+
 
 <aside>
 👉
 
-*NOTAS:*  En PLINK, a opción `--output-chr chrM` activa esta codificación (`chr1`, `chrX`, etc.). Ademais, PLINK 1.9 xera VCFs compatibles co estándar ≤4.2, que é o aceptado polos servidores de imputación.
+*NOTAS:*  En PLINK, a opción `--output-chr chrM` activa esta codificación (`chr1`, `chrX`, etc.). Ademais, hai que ter en mente que o VCF ten que ser versión 4.2, que é o aceptado polos servidores de imputación (PLINK 1.9 crea VCF 4.2)
 
 </aside>
 

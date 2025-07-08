@@ -20,7 +20,8 @@ FASTA_hg38="/mnt/netapp1/Store_chumxrcg/REFERENCE_GENOMES/hg38.fa"
 ```
 
 1. **Paso 1**: Con PLINK, dividimos os datos por cromosomas (1-23) e convertémolos a formato VCF.
-Cando traballamos coa versión hg38, o número de cromosoma debe ir codificado como `chr` (ex. `chr1`, `chrX`) para o servidor de imputación, mentres que co hg19 non. Para alinear co ficheiro FASTA, por outro lado, a codificación dos cromosomas teñen que levar o prefixo para que sexan compatibles coa nomenclatura do ficheiro. Entón o que facemos na pipeline é incorporar o "chr" directamente e 1. eliminalo nun paso posterior se a versión do xenoma é hg19, ou 2. mantelo se é hg38.
+Cando traballamos coa versión hg38, o número de cromosoma debe ir codificado como `chr` (ex. `chr1`, `chrX`) para o servidor de imputación, mentres que coa hg19 non.
+Para alinear co ficheiro FASTA, por outro lado, a codificación dos cromosomas ten que levar o prefixo para que sexan compatibles coa nomenclatura do ficheiro. Entón o que facemos na pipeline é incorporar o "chr" directamente e 1. eliminalo nun paso posterior se a versión do xenoma é hg19, ou 2. mantelo se é hg38.
 
 
 

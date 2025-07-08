@@ -80,7 +80,7 @@ unzip -P ${PASSWORD} \*
 for i in {1..23}; do
     $STORE2/plink/plink2 \
         --vcf "${DIR_IMPUTACION}/chr${i}.dose.vcf.gz" \
-        --set-all-var-ids '@:#:$r:$a' \
+        --set-all-var-ids 'chr@:#:$r:$a' \
         --extract-if-info "R2>=0.8" \
         --new-id-max-allele-len 100 \
         --maf 0.01 \

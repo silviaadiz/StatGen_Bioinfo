@@ -13,7 +13,7 @@ echo "Os arquivos imputados estarán en $DIR_IMPUTACION e terán como prefixo $P
 # Paso 1: Descarga dos arquivos dende o servidor
 #-----------------------------------------------
  
-cd ${DIR_IMPUTACION}
+cd ${DIR_IMPUTACION}/
 curl -sL ${LINK_DESCARGA} | bash
 
 unzip -P ${PASSWORD} \*

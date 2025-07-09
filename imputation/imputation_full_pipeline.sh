@@ -72,7 +72,7 @@ PASSWORD="copiar_password"
 
 # Paso 1: Descarga dos arquivos dende o servidor
  
-cd ${DIR_IMPUTACION}
+cd ${DIR_IMPUTACION}/
 curl -sL ${LINK_DESCARGA} | bash
 unzip -P ${PASSWORD} \*
 

@@ -76,10 +76,18 @@ cd ${DIR_IMPUTACION}/
 curl -sL ${LINK_DESCARGA} | bash
 unzip -P ${PASSWORD} \*
 
+
 # Paso 2: Filtrado e renomeamento de SNPs dende VCF imputado
+
 for i in {1..23}; do
+    if [ "$i" -eq 23 ]; then
+        VCF_FILE="chrX.dose.vcf.gz"
+    else
+        VCF_FILE="chr${i}.dose.vcf.gz"
+    fi
+
     $STORE2/plink/plink2 \
-        --vcf "${DIR_IMPUTACION}/chr${i}.dose.vcf.gz" \
+        --vcf "${DIR_IMPUTACION}/${VCF_FILE}" \
         --set-all-var-ids 'chr@:#:$r:$a' \
         --extract-if-info "R2>=0.8" \
         --new-id-max-allele-len 100 \

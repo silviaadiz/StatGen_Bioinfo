@@ -3,29 +3,27 @@ library(ggplot2)
 library(forcats)
 library(patchwork)
 
-#' Forest plot function for PRS analysis (used in my thesis)
-#' 
-#' Creates a two-panel forest plot:
-#' - Upper panel: OR for standardized PRS (per SE)
-#' - Lower panel: OR for quintile comparison (e.g., top 20% vs rest)
-#' 
-#' @param data Data frame must contain the following columns: term, var, OR, CI_l, CI_u, p
-#' @param xmin Minimum x-axis limit
-#' @param xmax Maximum x-axis limit  
-#' @param title Plot title
-#' @param std_prs Term name for standardized PRS (default: "std_prs")
-#' @param ntile_comparison Term name for quintile comparison (default: "q5_vs_rest")
-#' @return Combined ggplot object
+# Forest plot function for PRS analysis (used in my thesis)
+# 
+# Creates a two-panel forest plot:
+# - Upper panel: OR for standardized PRS (per SE)
+# - Lower panel: OR for quintile comparison (e.g., top 20% vs rest)
+# 
+# data: Data frame must contain the following columns: term, var, OR, CI_l, CI_u, p
+# xmin: Minimum x-axis limit
+# xmax: Maximum x-axis limit  
+# title: Plot title
+# std_prs: Term name for standardized PRS (default: "std_prs")
+# ntile_comparison: Term name for quintile comparison (default: "q5_vs_rest")
+
 
 plot_ics <- function(data, xmin, xmax, title, 
                      std_prs = "std_prs", 
                      ntile_comparison = "q5_vs_rest") {
 
-  # Filter data for standardized PRS
+  # Upper panel: Standardized PRS results
   data_stprs <- subset(data, term == std_prs)
   
-  # Upper panel: Standardized PRS results
-  # Forest plot with OR points and confidence intervals
   p1 <- ggplot(data_stprs, aes(y = fct_rev(factor(var)))) +
     geom_point(aes(x = OR), shape = 15, size = 3, color = "black") +
     geom_text(aes(x = OR, label = round(OR, 2)), 
@@ -75,10 +73,9 @@ plot_ics <- function(data, xmin, xmax, title,
       plot.background = element_rect(fill = 'transparent', colour = NA)
     ))
   
-  # Filter data for quintile comparison
+  # Lower panel: Quintile comparison results
   data_quintile <- subset(data, term == ntile_comparison)
   
-  # Lower panel: Quintile comparison results
   p11 <- ggplot(data_quintile, aes(y = fct_rev(factor(var)))) +
     geom_point(aes(x = OR), shape = 15, size = 3, color = "black") +
     geom_text(aes(x = OR, label = round(OR, 2)), 

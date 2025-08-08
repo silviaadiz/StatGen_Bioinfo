@@ -1,13 +1,13 @@
   
 boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactions_covar = NULL, B = 1000, cores = 4) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
-    stop("foreach package not installed")
+    install.packages("foreach")
   }
   if (!requireNamespace("doParallel", quietly = TRUE)) {
-    stop("doParallel package not installed")
+    install.packages("doParallel")
   }
   if (!requireNamespace("glmnet", quietly = TRUE)) {
-    stop("glmnet not installed")
+    install.packages("glmnet")
   }
   
   library(foreach)

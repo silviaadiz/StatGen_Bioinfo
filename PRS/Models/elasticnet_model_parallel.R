@@ -1,4 +1,4 @@
- 
+  
 boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactions_covar = NULL, B = 1000, cores = 4) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
     stop("foreach package not installed")

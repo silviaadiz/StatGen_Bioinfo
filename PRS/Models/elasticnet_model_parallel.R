@@ -46,7 +46,7 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE,
   
   set.seed(1711)
   
-  complete_cases <- complete.cases(data[, c(as.character(pheno), as.character(covar))])
+  complete_cases <- complete.cases(data[, c(pheno, covar)])
   dat_na <- data[complete_cases, , drop = FALSE]
   
   
@@ -103,7 +103,7 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE,
       best_alpha <- NA
       best_lambda <- NA
       best_auc <- -Inf
-      best_coef <- rep(NA, ncol(x) + 1)  # +1 para o intercepto
+      best_coef <- rep(NA, ncol(x))  
       
       # gride search sobre o parámetro alpha
       for (a in alphas_grid) {
@@ -118,14 +118,14 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE,
         )
         
         # Extraer mellor AUC para o alpha actual
-        current_auc <- max(cv_fit$cvm, na.rm = TRUE)
+        curr_auc <- max(cv_fit$cvm, na.rm = TRUE)
         
         # Actualizar mellor modelo se o AUC actual é mellor
-        if (current_auc > best_auc) {
+        if (curr_auc > best_auc) {
           best_alpha <- a
           best_lambda <- cv_fit$lambda.1se  
-          best_auc <- current_auc
-          best_coef <- as.numeric(coef(cv_fit, s = "lambda.1se"))
+          best_auc <- curr_auc
+          best_coef <- as.numeric(coef(cv_fit, s = "lambda.1se"))[-1]
         }
       }
       
@@ -140,12 +140,12 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE,
   })
   
   # Procesar resultados bootstrap
-  n_coefs <- ncol(x) + 1  
+  n_coefs <- ncol(x)  
   coef_bootstrap <- resultados[, 1:n_coefs]              
   boot_lambda <- resultados[, n_coefs + 1]            
   boot_alpha <- resultados[, n_coefs + 2]              
   
-  colnames(coef_bootstrap) <- c("(Intercept)", colnames(x))
+  colnames(coef_bootstrap) <- colnames(x)
   
   prob.nonzero.1se <- apply(abs(coef_bootstrap) > 1e-5, 2, FUN = mean)  
   mean_coef <- apply(coef_bootstrap, 2, mean)                            

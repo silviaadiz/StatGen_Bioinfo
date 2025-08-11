@@ -3,12 +3,13 @@ library(ggplot2)
 library(forcats)
 library(patchwork)
 
-# Forest plot function for PRS analysis (used in my thesis)
+# Forest plot function for PRS analyses (used in my thesis)
 # 
 # Creates a two-panel forest plot:
-# - Upper panel: OR for standardized PRS (per SE)
-# - Lower panel: OR for quintile comparison (e.g., top 20% vs rest)
+# -Upper panel: OR for standardized PRS (per SE)
+# -Lower panel: OR for quintile comparison (e.g., top 20% vs rest)
 # 
+# PARAMETERS:
 # data: Data frame must contain the following columns: term, var, OR, CI_l, CI_u, p
 # xmin: Minimum x-axis limit
 # xmax: Maximum x-axis limit  

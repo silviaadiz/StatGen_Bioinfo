@@ -34,14 +34,11 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE,
   
   # Verificar e instalar paquetes necesarios
   if (!requireNamespace("foreach", quietly = TRUE)) {
-    stop("Package foreach is missing!!")
-  }
+    stop("Package foreach is missing!!")}
   if (!requireNamespace("doParallel", quietly = TRUE)) {
-    stop("Package doParallel is missing!!")
-  }
+    stop("Package doParallel is missing!!")}
   if (!requireNamespace("glmnet", quietly = TRUE)) {
-    stop("Package glmnet is missing!!")
-  }
+    stop("Package glmnet is missing!!")}
   
   library(foreach)
   library(doParallel)

@@ -7,7 +7,7 @@ boot_lasso <- function(data, pheno, covar, interactions = FALSE, interactions_co
   set.seed(1711)
   
   # Filter rows with missing values (pending imputation)
-  dat_na <- data[complete.cases(data[, c(pheno, covar)]), , drop = FALSE]
+  dat_na <- data[complete.cases(data[, c(pheno, covar)]), ]
   
   # Model formula
   if (interactions && !is.null(interactions_covar)) {

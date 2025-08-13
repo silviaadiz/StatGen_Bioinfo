@@ -30,8 +30,7 @@ library(glmnet)
 library(foreach)
 library(doParallel)
 
-boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, 
-                           interactions_covar = NULL, B = 1000, cores = 4) {
+boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactions_covar = NULL, B = 1000, cores = 4) {
   
   # Verificar e instalar paquetes necesarios
   if (!requireNamespace("foreach", quietly = TRUE)) {
@@ -41,9 +40,6 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE,
   if (!requireNamespace("glmnet", quietly = TRUE)) {
     stop("Package glmnet is missing!!")}
   
-  library(foreach)
-  library(doParallel)
-  library(glmnet)
   
   set.seed(1711)
   

@@ -11,19 +11,8 @@ boot_lasso <- function(data, pheno, covar, interactions = FALSE, interactions_co
   
   # Model formula
   if (interactions && !is.null(interactions_covar)) {
-    f1 <- as.formula(sprintf(
-      '%s ~ %s + %s', 
-      as.character(pheno), 
-      paste(covar, collapse = " + "), 
-      paste(interactions_covar, collapse = " + ")
-    ))
-  } else {
-    f1 <- as.formula(sprintf(
-      '%s ~ %s', 
-      as.character(pheno), 
-      paste(covar, collapse = " + ")
-    ))
-  }
+    f1 <- as.formula(sprintf('%s ~ %s + %s', as.character(pheno), paste(covar, collapse = " + "), paste(interactions_covar, collapse = " + "))) 
+  } else {f1 <- as.formula(sprintf('%s ~ %s', as.character(pheno), paste(covar, collapse = " + "))) }
   
   # Create model matrix 
   x <- model.matrix(f1, data = dat_na)

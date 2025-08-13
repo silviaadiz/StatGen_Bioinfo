@@ -5,13 +5,13 @@
 # 2. Binary comparison between risk categories.
 
 # Parameters:
-# - data: dataframe with data
-# - covar: vector of covariables 
-# - outcomes: vector of binary outcomes
-# - prs.variable: name of the variable with the PRS
-# - compute.quintiles: TRUE by default. If TRUE, computes quintiles from the PRS variable.
-# - prs.quintile.variable: NULL by default. If available in your data, you may provide the quintile variable using this argument.
-# - prs.ntile.comparison.variable: Custom comparison variable (binary, 1/0).
+# data: dataframe with data
+# covar: vector of covariables, like c("cov1","cov2"..)
+# outcomes: vector of binary outcomes
+# prs.variable: name of the variable with the PRS
+# compute.quintiles: TRUE by default. If TRUE, computes quintiles from the PRS variable.
+# prs.quintile.variable: NULL by default. If available in your data, you may provide the quintile variable using this argument.
+# prs.ntile.comparison.variable: Custom comparison variable (binary, 1/0).
 
 # By default, the function computes PRS quintiles and then compares the 5th vs 4-6th (top 20% risk vs 40-60% -average- risk).
 # If your data already has a quintile variable, `compute.quintiles` may be set to FALSE and the variable may be provided to `prs.quintile.variable`.
@@ -45,9 +45,9 @@ fit_mod_prs <- function(data, covar, outcomes, prs.variable, compute.quintiles =
   data <- data %>%
     mutate(st.score = .data[[prs.variable]])
   
-  form_prs <- function(pheno) {as.formula(sprintf('%s ~ %s + st.score', pheno, paste(covar, collapse = "+")))}
-  
-  form_quintile <- function(pheno) {as.formula(sprintf('%s ~ %s + comparison', pheno, paste(covar, collapse = "+")))}
+   form_prs <- function(pheno) {reformulate(c(covar, "st.score"), response = pheno)}
+
+   form_quintile <- function(pheno) {reformulate(c(covar, "comparison"), response = pheno)}
   
   models_prs <- map(outcomes, ~ glm(form_prs(.x), data = data, family = binomial))
   models_quintile <- map(outcomes, ~ glm(form_quintile(.x), data = data, family = binomial))

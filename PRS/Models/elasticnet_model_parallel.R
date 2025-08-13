@@ -5,6 +5,7 @@
 # Alpha controla o equilibrio entre penalizacións ridge (α=0) e lasso (α=1).
 # Lambda controla a forza xeral da regularización (determina con que forza se shrinkean os coeficientes cara 0: lambda máis alto dará lugar a coef. máis pequenos)
 
+# Parámetros: 
 # data: Dataframe con variables
 # pheno: Nome da variable fenotípica
 # covar: Vector cos nomes das covariables a incluír no modelo

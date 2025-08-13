@@ -7,12 +7,10 @@
 #
 # Data: dataframe cos datos
 # pheno_var: string con nome do fenotipo
-# covar: string coas covariables tipo COVAR1+COVAR2..etc
+# covar: string coas covariables tipo COVAR1+COVAR2..etcc
 # score_var: variable co nome do PRS
 # B: número de remostras
 # parallel.boot: modo de paralelización de boot ("no","multicore","snow"). Ver axuda da función boot.
-
-
 
 
 
@@ -21,13 +19,13 @@ library(boot)
 
 calc_r2_inc_bootstrap <- function(data, pheno_var, covar, score_var = "st.score", B = 1000, parallel.boot="multicore") {
 
-  if (!requireNamespace("rms", quietly = T) {stop ("Package rms is missing!!")}
-  if (!requireNamespace("boot", quietly = T) {stop ("Package boot is missing!!")}
+  if (!requireNamespace("rms", quietly = T)) {stop ("Package rms is missing!!")}
+  if (!requireNamespace("boot", quietly = T)) {stop ("Package boot is missing!!")}
 
-  covar.st<- gsub(",", "+", covar)
-  f.cov <- as.formula(paste(pheno_var, "~", covar.st))
-  f.full <- as.formula(paste(pheno_var, "~", covar.st, "+", score_var))
-  f.prs <- as.formula(paste(pheno_var, "~", score_var))
+  covar.st <- gsub(",", "+", paste(covar, collapse = "+"))
+  f.cov <- as.formula(sprintf("%s ~ %s", as.character(pheno_var), covar.st))
+  f.full <- as.formula(sprintf("%s ~ %s + %s", as.character(pheno_var), covar.st, score_var))
+  f.prs <- as.formula(sprintf("%s ~ %s", as.character(pheno_var), score_var))
   
   dif_rsq <- function(dat, idx) {
     bt <- dat[idx, ]
@@ -38,7 +36,7 @@ calc_r2_inc_bootstrap <- function(data, pheno_var, covar, score_var = "st.score"
     r2_cov.mod <- mod.cov$stats["R2"]
     r2_full.mod <- mod.full$stats["R2"]
     r2_prs.mod <- mod.prs$stats["R2"]
-    r2_inc <- mod.full$stats["R2"] - mod.cov$stats["R2"]
+    r2_inc <- r2_full.mod - r2_cov.mod
     
     c(r2_cov.mod,r2_full.mod,r2_prs.mod,r2_inc)}
   

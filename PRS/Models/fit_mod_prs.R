@@ -21,7 +21,7 @@
 
 fit_mod_prs <- function(data, covar, outcomes, prs.variable, compute.quintiles = TRUE, prs.quintile.variable = NULL, prs.ntile.comparison.variable = NULL) {
   
-  if (is.null(prs.quintile.variable) && compute.quintiles) {
+  if (is.null(prs.quintile.variable) & compute.quintiles) {
     data <- data %>%
       mutate(
         quintile = ntile(.data[[prs.variable]], 5),
@@ -39,7 +39,7 @@ fit_mod_prs <- function(data, covar, outcomes, prs.variable, compute.quintiles =
   } else if (!is.null(prs.ntile.comparison.variable)) {
    data$comparison <- data[[prs.ntile.comparison.variable]] }
 
- if (is.null(prs.quintile.variable) && !compute.quintiles && is.null(prs.ntile.comparison.variable)) { 
+ if (is.null(prs.quintile.variable) & !compute.quintiles & is.null(prs.ntile.comparison.variable)) { 
   stop("There is no variable for comparison between risk categories. Either provide one or allow computation of quintiles (compute.quintiles=T)") }
   
   data <- data %>%

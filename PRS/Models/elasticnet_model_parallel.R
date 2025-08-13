@@ -44,7 +44,7 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactio
   set.seed(1711)
   
   complete_cases <- complete.cases(data[, c(pheno, covar)])
-  dat_na <- data[complete_cases, , drop = FALSE]
+  dat_na <- data[complete_cases, ]
   
   
   if (interactions && !is.null(interactions_covar)) {
@@ -59,7 +59,7 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactio
   # Construír matriz do modelo e extraer compoñentes
   f1 <- as.formula(formula_str)
   x <- model.matrix(f1, data = dat_na)
-  x <- x[, !colnames(x) %in% "(Intercept)", drop = FALSE]  # Eliminar columna de intercepto
+  x <- x[, !colnames(x) %in% "(Intercept)"]  # Eliminar columna de intercepto
   y <- dat_na[[pheno]]
   n <- nrow(dat_na)
   

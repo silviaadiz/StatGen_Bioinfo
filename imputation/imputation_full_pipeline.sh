@@ -72,10 +72,9 @@ PASSWORD="copiar_password"
 
 # Paso 1: Descarga dos arquivos dende o servidor
  
-cd ${DIR_IMPUTACION}/
+cd ${DIR_IMPUTACION}
 curl -sL ${LINK_DESCARGA} | bash
 unzip -P ${PASSWORD} \*
-
 
 # Paso 2: Filtrado e renomeamento de SNPs dende VCF imputado
 
@@ -93,21 +92,8 @@ for i in {1..23}; do
         --new-id-max-allele-len 100 \
         --maf 0.01 \
         --allow-no-sex \
-        --make-bed \
-        --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_post_qc_paso01"
-done
-
-# Paso 3: Reemprazo do arquivo FAM co orixinal pre-imputación
-# NOTA: COMPROBAR QUE O CHR IMPUTADO CORRESPONDE AOS INDIVIDUOS XENOTIPADOS, é dicir, que sexan OS MESMOS INDIVIDUOS E NA MESMA ORDE
-
-for i in {1..23}; do
-    $STORE2/plink/plink \
-        --bfile "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_post_qc_paso01" \
+        --make-pgen dosage=DS \
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
-        # NOTA: Se tiveramos os arquivos ${DIR_XENOT}/${NOME_XENOT}_chr${i}.fam/.bim/.bed (é dicir, crear no paso 1 pre-imputación os binarios por chr, ademais dos vcf)
-        # poderíamos empalmarlle o fam do chr, é o mesmo. o comando sería substituír o de encima por:
-        # --fam "${DIR_XENOT}/${NOME_XENOT}_chr${i}.fam"
-        --allow-no-sex \
-        --make-bed \
         --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
 done
+

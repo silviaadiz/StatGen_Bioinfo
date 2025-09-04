@@ -25,7 +25,8 @@ Cando traballamos coa versión hg38, o número de cromosoma debe ir codificado c
 Para alinear co ficheiro FASTA no Paso 3, por outro lado, a codificación dos cromosomas ten que levar o prefixo para que sexan compatibles coa nomenclatura do ficheiro. Entón o que facemos na pipeline é incorporar o "chr" directamente e: (A) eliminalo nun paso posterior se a versión do xenoma é hg19, ou (B). mantelo se é hg38.
 
 <aside>
-⚠ 
+👉
+
 *NOTAS:*  En PLINK, a opción `--output-chr chrM` activa esta codificación (`chr1`, `chrX`, etc.). Ademais, PLINK 1.9 xera VCFs compatibles co estándar ≤4.2, que é o aceptado polos servidores de imputación.
 
 </aside>
@@ -149,7 +150,8 @@ Exemplo de encabezado en `dose.vcf.gz`:
 ```
 
 <aside>
-⚠ 
+👉
+
 **Nota:** o alelo alternativo NON ten por que ser o menor. Podemos atopar algo de info aquí: https://genome.sph.umich.edu/wiki/Minimac3_Info_File.
 
 **Nota:** Nós queremos traballar cos xenotipos codificados como 0/1/2, é dicir, os xenotipos ou campo GT. Se nalgún caso quixéramos recuperar as doses, poderíamos (https://www.cog-genomics.org/plink/2.0/input#vcf). 
@@ -181,7 +183,8 @@ Exemplo de encabezado en `info.gz`:
     
 
 <aside>
-⚠ 
+👉
+
 **ACLARACIÓNS IMPORTANTES**
 
 *Nomes SNPs e rs*
@@ -208,21 +211,20 @@ GT son os xenotipos discretos ou *hard-calls* (xenotipo máis probable). **Sen e
 # Paso 2: Filtrado e renomeamento de SNPs dende VCF imputado
 
 for i in {1..23}; do
-    if ["$i" -eq 23]; then
+    if [ "$i" -eq 23 ]; then
         VCF_FILE="chrX.dose.vcf.gz"
     else
         VCF_FILE="chr${i}.dose.vcf.gz"
     fi
-    
-for i in {1..23}; do
+
     $STORE2/plink/plink2 \
-        --vcf "${DIR_IMPUTACION}/chr${i}.dose.vcf.gz" \
+        --vcf "${DIR_IMPUTACION}/${VCF_FILE}" \
         --set-all-var-ids 'chr@:#:$r:$a' \
         --extract-if-info "R2>=0.8" \
         --new-id-max-allele-len 100 \
         --maf 0.01 \
         --allow-no-sex \
-        --make-bed \
+        --make-pgen dosage=DS \
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
         --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
 done
@@ -245,6 +247,113 @@ for i in {1..23}; do
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
         --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
 done
+
+```
+
+## Código completo
+
+Aquí temos o código completo, pero no cesga están os arquivos “Script_pre_imputación.sh”, “Script_post_imputación.sh” e ”config.sh”, que son máis cómodos de usar porque só se modifica config.sh (salvo modificacións da pipeline).
+
+```bash
+#---------------------------------------
+#---------- PRE IMPUTACIÓN -------------
+#---------------------------------------
+
+# Paso 0: módulos e variables
+
+module load plink
+module load gcccore/system samtools/1.9
+DIR_XENOT="cambiar_a_directorio_xenotipados"
+DIR_PRE_IMPUTACION="cambiar_a_directorio_output_pre_imputacion" 
+# copiar o anterior se os queremos na mesma carpeta
+NOME_XENOT="nome_arquivos_xenotipados"
+GENOME_BUILD="hg19" 
+# ou "hg38"
+FASTA_hg19="/mnt/netapp1/Store_chumxrcg/REFERENCE_GENOMES/hg19.fa"
+FASTA_hg38="/mnt/netapp1/Store_chumxrcg/REFERENCE_GENOMES/hg38.fa"
+# Arquivo para renomear o código de cromosoma en hg19: chr1-->1; chrX-->23
+RENAME_FILE="/mnt/netapp1/Store_chumxrcg/REFERENCE_GENOMES/RENAME_hg19_back.txt" 
+
+# Paso 1: División en cromosomas e recodificación a VCF. Exportación co código de cromosoma correcto.
+
+for i in {1..23}; do
+    /mnt/netapp1/Store_chumxrcg/plink/plink \
+        --bfile "${DIR_XENOT}/${NOME_XENOT}" \
+        --chr "${i}" \
+        --recode vcf-iid \
+        --output-chr chrM \
+        --out "${DIR_PRE_IMPUTACION}/${NOME_XENOT}_chr${i}"
+done
+
+# Paso 2: Compresión do VCF a VCF.gz e indexar
+
+for i in {1..23}; do 
+    bcftools view "${DIR_PRE_IMPUTACION}/${NOME_XENOT}_chr${i}.vcf" -Oz > "${DIR_PRE_IMPUTACION}/${NOME_XENOT}_chr${i}.vcf.gz"
+    tabix -p vcf "${DIR_PRE_IMPUTACION}/${NOME_XENOT}_chr${i}.vcf.gz"
+done
+
+# Paso 3: Alineamento ao xenoma de referencia e cambio de código de chr en hg19
+
+for i in {1..23}; do
+    if [ "$GENOME_BUILD" = "hg19" ]; then
+    # Alineamento ao xenoma de referencia
+        bcftools norm --check-ref s -f "$FASTA_hg19" "${DIR_PRE_IMPUTACION}/${NOME_XENOT}_chr${i}.vcf.gz" -o "${DIR_PRE_IMPUTACION}/chr${i}_flipped.vcf"
+		# Reanotación dos SNPs (de chr1:pos:alelos a 1:pos:alelos)
+        bcftools annotate --rename-chrs "$RENAME_FILE" "${DIR_PRE_IMPUTACION}/chr${i}_flipped.vcf" -Oz -o "${DIR_PRE_IMPUTACION}/chr${i}_flipped_preimputacion.vcf.gz"
+    fi
+
+    if [ "$GENOME_BUILD" = "hg38" ]; then
+    # Alineamento ao xenoma de referencia
+        bcftools norm --check-ref s -f "$FASTA_hg38" "${DIR_PRE_IMPUTACION}/${NOME_XENOT}_chr${i}.vcf.gz" -Oz -o "${DIR_PRE_IMPUTACION}/chr${i}_flipped_preimputacion.vcf.gz"
+    fi
+done
+
+#---------------------------------------
+#---------- POST IMPUTACIÓN ------------
+#--------------------------------------- 
+
+# Paso 0. Cargamos módulos e establecemos as variables.
+
+module load plink
+module load gcccore/system samtools/1.9
+DIR_XENOT="cambiar_a_directorio_xenotipados"
+DIR_PRE_IMPUTACION="cambiar_a_directorio_output_pre_imputacion" 
+# copiar o anterior se os queremos na mesma carpeta
+NOME_XENOT="nome_arquivos_xenotipados"
+DIR_IMPUTACION="cambiar_path_para_descarga_imputados"
+# Prefixo para os arquivos de saída
+PREFIX_IMPUTADOS="cambiar_nome_para_imputados"
+LINK_DESCARGA="copiar_link_descarga"
+PASSWORD="copiar_password"
+
+# Paso 1: Descarga dos arquivos dende o servidor
+ 
+cd ${DIR_IMPUTACION}
+curl -sL ${LINK_DESCARGA} | bash
+unzip -P ${PASSWORD} \*
+
+# Paso 2: Filtrado e renomeamento de SNPs dende VCF imputado
+
+for i in {1..23}; do
+    if [ "$i" -eq 23 ]; then
+        VCF_FILE="chrX.dose.vcf.gz"
+    else
+        VCF_FILE="chr${i}.dose.vcf.gz"
+    fi
+
+    $STORE2/plink/plink2 \
+        --vcf "${DIR_IMPUTACION}/${VCF_FILE}" \
+        --set-all-var-ids 'chr@:#:$r:$a' \
+        --extract-if-info "R2>=0.8" \
+        --new-id-max-allele-len 100 \
+        --maf 0.01 \
+        --allow-no-sex \
+        --make-pgen dosage=DS \
+        --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
+        --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
+done
+
+# NOTA: COMPROBAR QUE O CHR IMPUTADO CORRESPONDE AOS INDIVIDUOS XENOTIPADOS, é dicir, que sexan OS MESMOS INDIVIDUOS E NA MESMA ORDE
 
 ```
 

@@ -25,9 +25,9 @@ Cando traballamos coa versión hg38, o número de cromosoma debe ir codificado c
 Para alinear co ficheiro FASTA no Paso 3, por outro lado, a codificación dos cromosomas ten que levar o prefixo para que sexan compatibles coa nomenclatura do ficheiro. Entón o que facemos na pipeline é incorporar o "chr" directamente e: (A) eliminalo nun paso posterior se a versión do xenoma é hg19, ou (B). mantelo se é hg38.
 
 <aside>
-👉
 
-*NOTAS:*  En PLINK, a opción `--output-chr chrM` activa esta codificación (`chr1`, `chrX`, etc.). Ademais, PLINK 1.9 xera VCFs compatibles co estándar ≤4.2, que é o aceptado polos servidores de imputación.
+
+**NOTAS:**  En PLINK, a opción `--output-chr chrM` activa esta codificación (`chr1`, `chrX`, etc.). Ademais, PLINK 1.9 xera VCFs compatibles co estándar ≤4.2, que é o aceptado polos servidores de imputación.
 
 </aside>
 
@@ -149,14 +149,12 @@ Exemplo de encabezado en `dose.vcf.gz`:
 ##FORMAT=<ID=HDS,Number=.,Type=Float,Description="Estimated Haploid Alternate Allele Dosage">
 ```
 
-<aside>
-👉
 
 **Nota:** o alelo alternativo NON ten por que ser o menor. Podemos atopar algo de info aquí: https://genome.sph.umich.edu/wiki/Minimac3_Info_File.
 
 **Nota:** Nós queremos traballar cos xenotipos codificados como 0/1/2, é dicir, os xenotipos ou campo GT. Se nalgún caso quixéramos recuperar as doses, poderíamos (https://www.cog-genomics.org/plink/2.0/input#vcf). 
 
-</aside>
+
 
 Exemplo de encabezado en `info.gz`:
 
@@ -182,8 +180,6 @@ Exemplo de encabezado en `info.gz`:
     **Paso 2.b:** Incorporamos o fam correspondente ao cromosoma xenotipado para recuperar toda a info de FID, IID, sexo e phenotype. 
     
 
-<aside>
-👉
 
 **ACLARACIÓNS IMPORTANTES**
 

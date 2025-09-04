@@ -19,12 +19,13 @@ curl -sL ${LINK_DESCARGA} | bash
 unzip -P ${PASSWORD} \*
 
 #------------------------------------------------------------
-# Paso 2: Filtrado e renomeamento de SNPs dende VCF imputado
+# Paso 2a: Filtrado e renomeamento de SNPs dende VCF imputado
+# Paso 2b: Reemprazo do arquivo FAM co orixinal pre-imputación
+# NOTA: COMPROBAR QUE O CHR IMPUTADO CORRESPONDE AOS INDIVIDUOS XENOTIPADOS, é dicir, que sexan OS MESMOS INDIVIDUOS E NA MESMA ORDE
 #------------------------------------------------------------
 
-
 for i in {1..23}; do
-    if ["$i" -eq 23]; then
+    if [ "$i" -eq 23 ]; then
         VCF_FILE="chrX.dose.vcf.gz"
     else
         VCF_FILE="chr${i}.dose.vcf.gz"
@@ -37,21 +38,7 @@ for i in {1..23}; do
         --new-id-max-allele-len 100 \
         --maf 0.01 \
         --allow-no-sex \
-        --make-bed \
-        --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_post_qc_paso01"
-done
-#----------------------------------------------------------------------------------------------------------------------------------
-# Paso 3: Reemprazo do arquivo FAM co orixinal pre-imputación
-# NOTA: COMPROBAR QUE O CHR IMPUTADO CORRESPONDE AOS INDIVIDUOS XENOTIPADOS, é dicir, que sexan OS MESMOS INDIVIDUOS E NA MESMA ORDE
-#----------------------------------------------------------------------------------------------------------------------------------
-
-for i in {1..23}; do
-    $STORE2/plink/plink \
-        --bfile "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_post_qc_paso01" \
+        --make-pgen dosage=DS \
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
-        --allow-no-sex \
-        --make-bed \
         --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
 done
-
-

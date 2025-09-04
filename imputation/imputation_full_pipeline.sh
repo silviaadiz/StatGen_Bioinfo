@@ -92,7 +92,7 @@ for i in {1..23}; do
         --new-id-max-allele-len 100 \
         --maf 0.01 \
         --allow-no-sex \
-        --make-pgen dosage=DS \
+        --make-bed \
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
         --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
 done

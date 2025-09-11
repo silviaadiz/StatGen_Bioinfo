@@ -212,7 +212,8 @@ N_GWAS="1000"
 CHR="1"
 
 # Directorio de output
-OUT_DIR="/ruta/output"
+OUT_DIR="/ruta/output/"
+OUT_NAME="out_name"
 
 module load miniconda3/4.11.0
 source activate prscsx
@@ -223,7 +224,7 @@ python /mnt/lustre/scratch/nlsas/home/usc/gb/sdd/PRSs_IMPORTANTE/prscs_prscsx/PR
   --sst_file=${SUMSTATS} \
   --n_gwas=${N_GWAS} \
   --chrom=${CHR} \
-  --out_dir=${OUT_DIR}
+  --out_dir="${OUT_DIR}/${OUT_NAME}"
 
 ```
 
@@ -324,14 +325,10 @@ Primeiro, xuntamos todos os cromosomas coa liña seguinte (debemos cambiar o `${
 ```bash
 $out_name="output_name"
 
-# PRS-cs
-cat _pst_eff_a1_b0.5_phiauto_chr* > scores_PRScs_${out_name}_allchr.txt
-
-# PRS-csx
 cat ${out_name}_pst_eff_a1_b0.5_phiauto_chr* > scores_PRScs_${out_name}_allchr.txt
 ```
 
-**NOTAS**: No caso de PRS-CSx, os que debemos concatenar son os “META”. PRS-cs non ten un parámetro de OUTPUT_NAME.
+**NOTAS**: No caso de PRS-CSx, os que debemos concatenar son os “META”. PRS-cs non ten un parámetro de OUT_NAME, pero si de OUT_DIR no que podemos especificar o prefixo.
 
 ### 01. Recuperamos os SNP-ID
 

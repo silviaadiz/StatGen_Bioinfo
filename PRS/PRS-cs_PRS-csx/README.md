@@ -50,13 +50,13 @@ PRS-CS(x) traballa con *rsid*, polo que tanto o .bim dos datos diana como os sum
 En caso de que existan tanto a columna SNP como *rsid* nos sumstats do GWAS de descubrimento (o habitual), **empregaríamos o script `0_get_rsid.R`:
 
 ```r
-**sumstats<-read.table("ruta/a/sumstats/sumstats.txt",header=T)
+sumstats<-read.table("ruta/a/sumstats/sumstats.txt",header=T)
 sumstats2<-sumstats[c("rsid","A1","A2","BETA","SE")]
 # En caso de que teñan outros nomes de columnas, seleccionaríanse
 	# as que foran e cambiaríanse os nomes a SNP, A1, A2, BETA, P.
 
 names(sumstats2)[1]<-"SNP" # DEBE CHAMARSE SNP
-write.table(sumstats2,"ruta/a/carpeta/prs/sumstats_preparado.txt",quote=F,row.names=F)**
+write.table(sumstats2,"ruta/a/carpeta/prs/sumstats_preparado.txt",quote=F,row.names=F)
 ```
 
 <aside>
@@ -197,10 +197,10 @@ Con PRS-Cs construímos PRS dunha única poboación ou multi-poboación cunha me
 #SBATCH --array=1-22
 
 # Ruta aos xenomas de referencia
-REF_DIR="/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/PRSs_IMPORTANTE/prscsx/ref_pops/ldblk_1kg_eur**"
+REF_DIR="/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/PRSs_IMPORTANTE/prscsx/ref_pops/ldblk_1kg_eur"
 
 # Arquivo BIM creado anteriormente sen ".bim"
-BIM_PREFIX="/ruta/**bim_rs_allchr"
+BIM_PREFIX="/ruta/bim_rs_allchr"
 
 # Summary statistics formateados
 SUMSTATS="/ruta/sumstats/formateados"

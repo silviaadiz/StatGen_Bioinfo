@@ -1,6 +1,6 @@
-# covar: Vector cos nomes das covariables a incluír no modelo, tipo c(cov1, cov2, cov3..)
+# covar: Vector cos nomes das covariables a incluír no modelo, tipo c("cov1", "cov2", "cov3"..)
 # interactions: Lóxico, se incluír termos de interacción (por defecto: FALSE)
-# interactions_covar: Vector cos termos de interacción a incluír se interactions=TRUE, tipo (cov1:cov2, cov3:cov1)
+# interactions_covar: Vector cos termos de interacción a incluír se interactions=TRUE, tipo ("cov1:cov2", "cov3:cov1")
 # B: número de remostras bootstrap a xerar (por defecto: 1000)
 # cores: número de núcleos para procesamento paralelo (por defecto: 4)
 #         Recomendado: usar núcleos totais - 2 para rendemento óptimo

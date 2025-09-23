@@ -34,13 +34,11 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactio
   }
   
   x <- model.matrix(f1, data = dat_na)
-  x <- x[, !colnames(x) %in% "(Intercept)"]  # Eliminar columna de intercepto
+  x <- x[, !colnames(x) %in% "(Intercept)"]  
   y <- dat_na[[pheno]]
   n <- nrow(dat_na)
-  
   alphas_grid <- seq(0, 1, by = 0.1)  # 0=Ridge, 1=Lasso, 0.5=Elastic Net
-  
-  cl <- NULL
+
   tryCatch({
     cl <- makeCluster(cores)  # Crear cluster co número especificado de núcleos
     registerDoParallel(cl)    # Rexistrar cluster para foreach
@@ -107,7 +105,7 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactio
   })
   
   # Procesar resultados bootstrap
-  n_coefs <- ncol(x)  
+  n_coefs <- ncol(x)-1  
   coef_bootstrap <- resultados[, 1:n_coefs]              
   boot_lambda <- resultados[, n_coefs + 1]            
   boot_alpha <- resultados[, n_coefs + 2]              

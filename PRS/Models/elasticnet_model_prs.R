@@ -59,8 +59,7 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactio
       i = 1:B,
       .combine = "rbind",
       .packages = c("glmnet"),
-      .export = c("x", "y", "alphas_grid", "base_seed", "n")
-    ) %dopar% {
+	) %dopar% {
       
       set.seed(base_seed + i)
       
@@ -133,7 +132,7 @@ boot_elasticnet <- function(data, pheno, covar, interactions = FALSE, interactio
     summary_stats = stats_table,
     bootstrap_samples = B,
     n_observations = n,
-    formula_used = formula_str
+    formula_used = f1
   )
   
   return(results)

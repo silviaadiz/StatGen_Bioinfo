@@ -8,11 +8,6 @@ module load plink
 module load gcccore/system samtools/1.9
 source config.sh
 
-echo "Procesando con referencia $GENOME_BUILD"
-echo "Arquivo de xenotipados orixinais está en $DIR_XENOT"
-echo "Os arquivos xenotipados para subir a imputar estarán en $DIR_PRE_IMPUTACION e terán como prefixo $NOME_XENOT"
-
-
 #----------------------------------------------------------------------------------------------------
 # Paso 2: División en cromosomas e recodificación a VCF. Exportación co código de cromosoma correcto.
 #----------------------------------------------------------------------------------------------------

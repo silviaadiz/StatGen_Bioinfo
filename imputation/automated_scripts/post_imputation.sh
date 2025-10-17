@@ -3,12 +3,11 @@
 #-------------------------------
 # Paso 0.  Cargar configuración 
 #------------------------------- 
+# Cambiar polos do teu HPC system
 
 source config.sh
-
-
-echo "Os arquivos imputados estarán en $DIR_IMPUTACION e terán como prefixo $PREFIX_IMPUTADOS"
-
+module load plink
+module load cesga/2020 gcc/system plink/2.00a2.3
 #-----------------------------------------------
 # Paso 1: Descarga dos arquivos dende o servidor
 #-----------------------------------------------
@@ -31,7 +30,7 @@ for i in {1..23}; do
         VCF_FILE="chr${i}.dose.vcf.gz"
     fi
 
-    $STORE2/plink/plink2 \
+    plink2 \
         --vcf "${DIR_IMPUTACION}/${VCF_FILE}" \
         --set-all-var-ids 'chr@:#:$r:$a' \
         --extract-if-info "R2>=0.8" \

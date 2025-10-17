@@ -3,6 +3,7 @@
 #-----------------------------------------
 # Paso 0.  Cargar configuración e módulos
 #-----------------------------------------
+# Cambiar polos do teu HPC system
 
 module load plink
 module load gcccore/system samtools/1.9
@@ -14,7 +15,7 @@ source config.sh
 
 
 for i in {1..23}; do
-    /mnt/netapp1/Store_chumxrcg/plink/plink \
+    plink \
         --bfile "${DIR_XENOT}/${NOME_XENOT}" \
         --chr "${i}" \
         --recode vcf-iid \

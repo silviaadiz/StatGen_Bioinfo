@@ -5,7 +5,7 @@
 #-----------------------------------------
 # Cambiar polos do teu HPC system
 
-module load plink
+module load plink/1.9b5
 module load gcccore/system samtools/1.9
 source config.sh
 

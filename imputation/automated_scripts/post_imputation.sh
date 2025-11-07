@@ -35,7 +35,7 @@ for i in {1..23}; do
         --set-all-var-ids 'chr@:#:$r:$a' \
         --extract-if-info "R2>=0.8" \
         --new-id-max-allele-len 100 \
-        --maf 0.01 \
+        --maf ${MAF} \
         --allow-no-sex \
         --make-bed \
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \

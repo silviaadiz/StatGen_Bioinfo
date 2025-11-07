@@ -39,5 +39,5 @@ for i in {1..23}; do
         --allow-no-sex \
         --make-bed \
         --fam "${DIR_XENOT}/${NOME_XENOT}.fam" \
-        --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_chr${i}_imputado"
+        --out "${DIR_IMPUTACION}/${PREFIX_IMPUTADOS}_imputado_chr${i}"
 done

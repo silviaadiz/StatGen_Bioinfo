@@ -1,4 +1,5 @@
-#
+#!/bin/bash
+
 # 1. Configuración de rutas e nomes
 source config_applyscore.sh
 module load plink

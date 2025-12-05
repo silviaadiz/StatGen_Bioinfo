@@ -1,0 +1,6 @@
+TARGET_DATA_FOLDER="ruta_a_individuos_target"
+INPUT_DATA_NAME="prefixo_nome_individuos_target"
+SNPS_EXTRACT="arquivo_de_snps_a_extraer"
+SCORE_FILE="SNP.RSID.Scores...blablabla.txt"
+OUTPUT_FOLDER="ruta_onde_gardar_output"
+OUTPUT_SCORE_NAME="nome_output_prs"

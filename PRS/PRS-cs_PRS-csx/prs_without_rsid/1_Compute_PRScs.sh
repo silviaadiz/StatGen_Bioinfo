@@ -1,13 +1,13 @@
 # Ruta aos xenomas de referencia
 
 
-REF_DIR="/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/PRSs_IMPORTANTE/prscs_prscsx/ref_pops/ldblk_1kg_eur"
+REF_DIR="/ruta_prscs/ref_pops/ldblk_1kg_eur"
 
 # Arquivo BIM creado anteriormente sen ".bim"
-BIM_PREFIX="/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/EB25/PRSs_novembro25_cohortes_combi/bim.rs.GIULIA.EBeur.allchr"
+BIM_PREFIX="bim.rs.GIULIA.EBeur.allchr"
 
 # Summary statistics formateados
-SUMSTATS="/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/EB25/PRS_Docherty/00_archivos_input_PRS/Sumstats/Prepared_PRScs_EUR_SuicideAttempt_Docherty_ISGC.MVP_310725.txt"
+SUMSTATS="/ruta/sumstats.txt"
 
 # N do GWAS (tamaño de mostra)
 N_GWAS="815178"
@@ -16,8 +16,8 @@ N_GWAS="815178"
 CHR=${SLURM_ARRAY_TASK_ID}
 
 # Directorio de output
-OUT_DIR="/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/EB25/PRSs_novembro25_cohortes_combi/PRS_Docherty/"
-
+OUT_DIR="/ruta/"
+PHENO_NAME="blabla"
 module load miniconda3/4.11.0
 
 
@@ -27,4 +27,4 @@ python /mnt/lustre/scratch/nlsas/home/usc/gb/sdd/PRSs_IMPORTANTE/prscs_prscsx/PR
   --sst_file=${SUMSTATS} \
   --n_gwas=${N_GWAS} \
   --chrom=${CHR} \
-  --out_dir=${OUT_DIR}
+  --out_dir="${OUT_DIR}/PRS_${PHENO_NAME}"

@@ -1,6 +1,6 @@
+#!/bin/bash
+
 # Ruta aos xenomas de referencia
-
-
 REF_DIR="/ruta_prscs/ref_pops/ldblk_1kg_eur"
 
 # Arquivo BIM creado anteriormente sen ".bim"

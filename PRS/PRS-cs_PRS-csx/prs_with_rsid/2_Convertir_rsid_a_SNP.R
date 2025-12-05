@@ -1,3 +1,9 @@
+##### Lanzado dende bash con:
+#   Rscript --vanilla "/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/EB25/PRSs_novembro25_cohortes_combi/PRS_psy/Apply_to_EB/2_Convert_rsid_to_SNP_opt.R" \
+#   --equivalence_file "/mnt/lustre/scratch/nlsas/home/usc/gb/sdd/EB25/PRS_Docherty/00_archivos_input_PRS/BIM_rs_PRScs/equivalencia.rs.snp.EBeur_senX.txt" \
+#   --score "${SCOREFILE_OUTPUT}" --pheno_name ${pheno} --target_name ${TARGET_NAME}
+
+
 
 library(optparse)
 option_list=list(

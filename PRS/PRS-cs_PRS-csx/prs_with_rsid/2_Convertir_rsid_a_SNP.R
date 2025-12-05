@@ -32,3 +32,19 @@ scores_snp <- merge(rsid_conv, scores, by = "rsid")
 # Exportar resultado final
 outp_name <- paste0("SNP.RSID.Scores_prscs_",opt$pheno_name,"_to_",opt$target_name,".txt")
 write.table(scores_snp, outp_name, quote = FALSE, row.names = FALSE, sep = "\t")
+
+
+####### Sin ser función:
+# rsid_conv <- read.table("equivalencia.rs.snp.EBeur_senX.txt", header = TRUE)
+# names(rsid_conv) <- c("rsid", "SNP")
+
+# Abrimos o score dos PRS (scores_PRScs_${out_name}_allchr.txt)
+# scores <- read.table("scores_PRScs_SA_Doch_allchr.txt", header = TRUE)
+
+# names(scores) <- c("CHR", "rsid", "pos", "EA", "NEA", "score")
+
+# Merge de scores con identificadores SNP
+# scores_snp <- merge(rsid_conv, scores, by = "rsid")
+
+# Exportar resultado final
+# write.table(scores_snp, "SNP.RSID.Scores_blabla.txt", quote = FALSE, row.names = FALSE, sep = "\t")
